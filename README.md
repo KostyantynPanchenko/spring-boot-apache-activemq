@@ -5,6 +5,14 @@
 * [FAQ](https://activemq.apache.org/faq)
 * [How do I use SSL](https://activemq.apache.org/how-do-i-use-ssl)
 
+## Running ActiveMQ locally
+
+`docker run --rm -it -p 61616:61616 -p 8161:8161 --name activemq symptoma/activemq:5.15.12`
+
+OR
+
+use `docker-compose.yml` from project's root
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
