@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ActiveMqConsumer {
 
-  @JmsListener(destination = "info-queue")
+  @JmsListener(destination = "info-queue", containerFactory = "queueConnectionFactory")
   public void onMessage(final InfoMessage message) {
     log.info("Got a new message! {}", message.getMessage());
   }
