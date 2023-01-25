@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  activemq:
+    image: symptoma/activemq:5.15.12
+    container_name: 'activemq'
+    ports:
+      - 61616:61616
+      - 8161:8161
+    volumes:
+      - ~/Documents/data/activemq/data:/data/activemq
+      - ~/Documents/data/activemq/log:/var/log/activemq
