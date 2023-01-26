@@ -1,5 +1,7 @@
 package com.example.apache.activemq.config;
 
+import com.example.apache.activemq.annotation.QueueJmsTemplate;
+import com.example.apache.activemq.annotation.TopicJmsTemplate;
 import javax.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.jms.pool.PooledConnectionFactory;
@@ -34,16 +36,44 @@ class ActiveMqConfig {
   }
 
   @Bean
-  public JmsTemplate jmsTemplate(final ConnectionFactory connectionFactory) {
+  @QueueJmsTemplate
+  public JmsTemplate queueJmsTemplate(final ConnectionFactory connectionFactory) {
     return new JmsTemplate(connectionFactory);
   }
 
-  @Bean(name = "queueConnectionFactory")
-  public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(
+  @Bean
+  @TopicJmsTemplate
+  public JmsTemplate topicJmsTemplate(final ConnectionFactory connectionFactory) {
+    return new JmsTemplate(connectionFactory);
+  }
+
+  @Bean
+  public DefaultJmsListenerContainerFactory queueConnectionFactory(
       final ConnectionFactory connectionFactory) {
     final var factory = new DefaultJmsListenerContainerFactory();
     factory.setConnectionFactory(connectionFactory);
     return factory;
   }
 
+  @Bean
+  public DefaultJmsListenerContainerFactory topicDurableConnectionFactory(
+      final ConnectionFactory connectionFactory) {
+    final var factory = new DefaultJmsListenerContainerFactory();
+    factory.setConnectionFactory(connectionFactory);
+    factory.setPubSubDomain(true);
+    factory.setSubscriptionDurable(true);
+    factory.setClientId("durable-client-1");
+    return factory;
+  }
+
+  @Bean
+  public DefaultJmsListenerContainerFactory topicNonDurableConnectionFactory(
+      final ConnectionFactory connectionFactory) {
+    final var factory = new DefaultJmsListenerContainerFactory();
+    factory.setConnectionFactory(connectionFactory);
+    factory.setPubSubDomain(true);
+    factory.setSubscriptionDurable(false);
+    factory.setClientId("nondurable-client-1");
+    return factory;
+  }
 }
